@@ -90,8 +90,8 @@
               <button id="compress-low-btn" type="button" class="py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 text-center">
                 Medium <span class="block text-[10px] text-slate-500 font-normal mt-0.5">Standard Size</span>
               </button>
-              <button id="compress-medium-btn" type="button" class="py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-brand-600 text-white shadow-md text-center">
-                High <span class="block text-[10px] text-brand-200 font-normal mt-0.5">Recommended</span>
+              <button id="compress-medium-btn" type="button" class="py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer bg-slate-200 text-slate-950 shadow-md text-center">
+                High <span class="block text-[10px] text-slate-600 font-normal mt-0.5">Recommended</span>
               </button>
               <button id="compress-high-btn" type="button" class="py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer text-slate-400 hover:text-slate-200 hover:bg-slate-900/40 text-center">
                 Best <span class="block text-[10px] text-slate-500 font-normal mt-0.5">Max Quality</span>
@@ -107,7 +107,7 @@
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="normalize-pages-checkbox" class="sr-only peer">
-              <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-500 after:border-slate-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600 peer-checked:after:bg-white peer-checked:after:border-white"></div>
+              <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-slate-950 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-500 after:border-slate-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-slate-200 peer-checked:after:bg-slate-950 peer-checked:after:border-slate-950"></div>
             </label>
           </div>
         </div>
@@ -115,7 +115,7 @@
         <!-- Action Button Panel (Hidden when empty, or shown disabled) -->
         <div id="action-panel" class="mt-8 pt-6 border-t border-slate-800/80 flex flex-col md:flex-row gap-4">
           <!-- Merge Only Button -->
-          <button id="merge-only-btn" disabled class="flex-1 py-3.5 px-5 rounded-2xl font-bold text-slate-300 bg-slate-900 hover:bg-slate-800 hover:text-white border border-slate-800 hover:border-slate-700 disabled:bg-slate-950 disabled:text-slate-650 disabled:border-slate-900 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer">
+          <button id="merge-only-btn" disabled class="flex-1 py-3.5 px-5 rounded-2xl font-bold text-slate-300 bg-slate-900/60 hover:bg-slate-850 hover:text-white border border-slate-800 hover:border-slate-700 disabled:bg-slate-950/40 disabled:text-slate-600 disabled:border-slate-900/30 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
             </svg>
@@ -123,7 +123,7 @@
           </button>
 
           <!-- Compress Only Button -->
-          <button id="compress-btn" disabled class="flex-1 py-3.5 px-5 rounded-2xl font-bold text-white bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-500 hover:to-indigo-600 disabled:from-slate-950 disabled:to-slate-950 disabled:text-slate-650 disabled:border disabled:border-slate-900 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm group btn-glow-purple focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer relative overflow-hidden">
+          <button id="compress-btn" disabled class="flex-1 py-3.5 px-5 rounded-2xl font-bold text-slate-200 bg-slate-800 hover:bg-slate-750 hover:text-white border border-slate-700 hover:border-slate-600 disabled:bg-slate-950/40 disabled:text-slate-600 disabled:border-slate-900/30 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm group focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 opacity-70 group-hover:scale-95 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
@@ -131,7 +131,7 @@
           </button>
 
           <!-- Merge & Compress Button -->
-          <button id="merge-btn" disabled class="flex-[1.2] py-3.5 px-5 rounded-2xl font-bold text-white bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 disabled:from-slate-950 disabled:to-slate-950 disabled:text-slate-650 disabled:border disabled:border-slate-900 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm group btn-glow-indigo focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer relative overflow-hidden">
+          <button id="merge-btn" disabled class="flex-[1.2] py-3.5 px-5 rounded-2xl font-extrabold text-slate-950 bg-slate-100 hover:bg-white disabled:bg-slate-950/40 disabled:text-slate-600 disabled:border disabled:border-slate-900/30 disabled:cursor-not-allowed transition-all duration-300 text-center flex items-center justify-center gap-2 text-sm group focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 focus:ring-offset-slate-950 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 opacity-70 group-hover:translate-y-[-1px] transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

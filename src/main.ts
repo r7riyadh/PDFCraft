@@ -124,11 +124,11 @@ function init() {
         }
       });
 
-      // Set current active visual state
-      btn.className = "py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-brand-600 text-white shadow-md text-center";
+      // Highlight active button
+      btn.className = "py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer bg-slate-200 text-slate-950 shadow-md text-center";
       const sub = btn.querySelector('span');
       if (sub) {
-        sub.className = "block text-[10px] text-brand-200 font-normal mt-0.5";
+        sub.className = "block text-[10px] text-slate-600 font-normal mt-0.5";
       }
     });
   };
