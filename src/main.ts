@@ -588,9 +588,9 @@ async function startProcessing(action: 'merge' | 'compress' | 'merge-only') {
       // Success state UI
       statusTitle.textContent = 'Processed Successfully';
       statusDescription.textContent = `Successfully merged and compressed ${selectedFiles.length} file(s) into one document [${PRESET_LABELS[activeCompressionLevel]} Quality].`;
-      statusIconContainer.className = "w-16 h-16 rounded-full flex items-center justify-center mb-6 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20";
+      statusIconContainer.className = "w-16 h-16 rounded-full flex items-center justify-center mb-6 text-slate-200 bg-slate-850 border border-slate-800 shadow-inner";
       statusIconContainer.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       `;
@@ -602,9 +602,9 @@ async function startProcessing(action: 'merge' | 'compress' | 'merge-only') {
       console.error("Merging & Compression error:", e);
       statusTitle.textContent = 'Processing Failed';
       statusDescription.textContent = `An error occurred: ${e instanceof Error ? e.message : String(e)}`;
-      statusIconContainer.className = "w-16 h-16 rounded-full flex items-center justify-center mb-6 text-rose-500 bg-rose-500/10 border border-rose-500/20";
+      statusIconContainer.className = "w-16 h-16 rounded-full flex items-center justify-center mb-6 text-slate-400 bg-slate-900 border border-slate-800 shadow-inner";
       statusIconContainer.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       `;
@@ -632,25 +632,21 @@ function showToast(message: string, type: 'error' | 'success' | 'info' = 'error'
   if (!container) return;
 
   const toast = document.createElement('div');
-  toast.className = `flex items-center gap-3 p-4 rounded-xl border text-sm font-semibold pointer-events-auto shadow-lg toast-enter ${
-    type === 'error'
-      ? 'bg-rose-950/80 border-rose-500/20 text-rose-200'
-      : type === 'success'
-      ? 'bg-emerald-950/80 border-emerald-500/20 text-emerald-200'
-      : 'bg-slate-900/80 border-slate-700/20 text-slate-200'
-  }`;
+  toast.className = `flex items-center gap-3 p-4 rounded-xl border border-slate-800 text-sm font-semibold pointer-events-auto shadow-lg toast-enter bg-slate-900/90 text-slate-200`;
 
   const icon = type === 'error'
-    ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
        </svg>`
-    : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
        </svg>`;
 
+  const prefix = type === 'error' ? '<strong>Error:</strong> ' : type === 'success' ? '<strong>Success:</strong> ' : '';
+
   toast.innerHTML = `
     ${icon}
-    <div class="flex-grow">${message}</div>
+    <div class="flex-grow">${prefix}${message}</div>
     <button class="toast-close-btn text-slate-400 hover:text-white transition-colors p-0.5 rounded focus:outline-none focus:ring-1 focus:ring-slate-500 cursor-pointer ml-1">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
