@@ -180,21 +180,54 @@ function handleFileSelect(e: Event) {
 }
 
 // Filter and add files to state
-function addFiles(files: File[]) {
-  // Filters out non-PDF files
-  const pdfFiles = files.filter(file => {
+async function addFiles(files: File[]) {
+  // Filters out unsupported files
+  const filesToProcess = files.filter(file => {
     const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-    return isPDF;
+    const isImage = file.type.startsWith('image/') || /\.(png|jpe?g|heic|heif)$/i.test(file.name);
+    return isPDF || isImage;
   });
 
-  if (pdfFiles.length < files.length) {
-    showToast("Skipped non-PDF files. Only PDF files are supported.", "error");
+  if (filesToProcess.length < files.length) {
+    showToast("Skipped unsupported files. Only PDFs, PNGs, JPEGs, and HEICs are supported.", "info");
   }
 
-  selectedFiles = [...selectedFiles, ...pdfFiles];
+  const processedFiles: File[] = [];
+
+  for (const file of filesToProcess) {
+    const isHEIC = file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
+    if (isHEIC) {
+      showToast(`Converting HEIC image: "${file.name}"...`, "info");
+      try {
+        const heic2anyModule = await import('heic2any');
+        const heic2any = heic2anyModule.default;
+        
+        // Convert HEIC to JPEG
+        const conversionResult = await heic2any({
+          blob: file,
+          toType: 'image/jpeg',
+          quality: 0.8
+        });
+
+        // heic2any can return a Blob or Blob[]
+        const jpegBlob = Array.isArray(conversionResult) ? conversionResult[0] : conversionResult;
+        
+        const newName = file.name.replace(/\.heic$/i, '.jpg').replace(/\.heif$/i, '.jpg');
+        const convertedFile = new File([jpegBlob], newName, { type: 'image/jpeg' });
+        processedFiles.push(convertedFile);
+        showToast(`HEIC image converted successfully!`, "success");
+      } catch (error) {
+        console.error("HEIC conversion failed:", error);
+        showToast(`Failed to convert HEIC file: "${file.name}"`, "error");
+      }
+    } else {
+      processedFiles.push(file);
+    }
+  }
+
+  selectedFiles = [...selectedFiles, ...processedFiles];
   renderFileList();
   updateButtonStates();
-
   // Reset file input value so selection can be repeated
   fileInput.value = '';
 }
@@ -245,17 +278,27 @@ function renderFileList() {
       ? `${(file.size / 1024).toFixed(1)} KB` 
       : `${sizeInMB.toFixed(2)} MB`;
 
+    const isImage = file.type.startsWith('image/') || /\.(png|jpe?g)$/i.test(file.name);
+    const iconClass = isImage
+      ? 'p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0'
+      : 'p-2 rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20 shrink-0';
+    const svgIcon = isImage
+      ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+         </svg>`
+      : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+         </svg>`;
+
     // Render individual file row card
     const fileCard = document.createElement('div');
     fileCard.className = 'flex items-center justify-between p-3.5 bg-slate-900/40 hover:bg-slate-900/60 border border-white/5 hover:border-white/10 rounded-xl transition-all duration-200 group';
     
     fileCard.innerHTML = `
       <div class="flex items-center gap-3 min-w-0 flex-grow">
-        <!-- PDF icon -->
-        <div class="p-2 rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20 shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
+        <!-- File icon -->
+        <div class="${iconClass}">
+          ${svgIcon}
         </div>
         <div class="min-w-0 flex-grow">
           <p class="text-sm font-semibold text-slate-200 truncate pr-4" title="${file.name}">
@@ -385,22 +428,41 @@ async function startProcessing(action: 'merge' | 'compress' | 'merge-only') {
 
       for (let i = 0; i < totalFiles; i++) {
         const file = selectedFiles[i];
-        statusDescription.textContent = `Compressing file ${i + 1} of ${totalFiles}: "${file.name}" [${PRESET_LABELS[activeCompressionLevel]} Quality]...`;
+        
+        const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+        const isPNG = file.type === 'image/png' || file.name.toLowerCase().endsWith('.png');
+        
+        let compressedBlob: Blob;
 
-        const { compressPDF } = await import('./pdf-optimizer');
-        const compressedBlob = await compressPDF(file, (percent) => {
-          // Map local file progress to global progress bar
-          const globalPercent = Math.round(((filesProcessed + (percent / 100)) / totalFiles) * 100);
-          progressBarFill.style.width = `${globalPercent}%`;
-          progressPercent.textContent = `${globalPercent}%`;
-        }, preset);
+        if (isPDF) {
+          statusDescription.textContent = `Compressing PDF ${i + 1} of ${totalFiles}: "${file.name}" [${PRESET_LABELS[activeCompressionLevel]} Quality]...`;
+          const { compressPDF } = await import('./pdf-optimizer');
+          compressedBlob = await compressPDF(file, (percent) => {
+            // Map local file progress to global progress bar
+            const globalPercent = Math.round(((filesProcessed + (percent / 100)) / totalFiles) * 100);
+            progressBarFill.style.width = `${globalPercent}%`;
+            progressPercent.textContent = `${globalPercent}%`;
+          }, preset);
+        } else {
+          statusDescription.textContent = `Compressing image ${i + 1} of ${totalFiles}: "${file.name}" [${PRESET_LABELS[activeCompressionLevel]} Quality]...`;
+          
+          progressBarFill.style.width = `${Math.round(((filesProcessed + 0.1) / totalFiles) * 100)}%`;
+          progressPercent.textContent = `${Math.round(((filesProcessed + 0.1) / totalFiles) * 100)}%`;
+
+          const { compressImageFile } = await import('./pdf-optimizer');
+          compressedBlob = await compressImageFile(file, preset.maxDim, preset.quality);
+
+          progressBarFill.style.width = `${Math.round(((filesProcessed + 1.0) / totalFiles) * 100)}%`;
+          progressPercent.textContent = `${Math.round(((filesProcessed + 1.0) / totalFiles) * 100)}%`;
+        }
 
         // Trigger file download
         const url = URL.createObjectURL(compressedBlob);
         const a = document.createElement('a');
         a.href = url;
         const nameWithoutExt = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-        a.download = `${nameWithoutExt}_compressed.pdf`;
+        const ext = isPDF ? 'pdf' : (isPNG ? 'png' : 'jpg');
+        a.download = `${nameWithoutExt}_compressed.${ext}`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

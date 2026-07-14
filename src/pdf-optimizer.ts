@@ -225,3 +225,59 @@ export async function compressPDF(
 
   return compressedBlob;
 }
+
+/**
+ * Compresses an image file (PNG/JPEG) using HTML5 Canvas scaling and quality rendering.
+ */
+export function compressImageFile(
+  file: File,
+  maxDim: number,
+  quality: number
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(img.src);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        return reject(new Error("Canvas context failed"));
+      }
+
+      let width = img.naturalWidth || img.width;
+      let height = img.naturalHeight || img.height;
+
+      // Scale down proportionally if dimensions exceed bounds
+      if (width > maxDim || height > maxDim) {
+        if (width > height) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const type = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error("Failed to encode image to Blob"));
+          }
+        },
+        type,
+        quality
+      );
+    };
+    img.onerror = () => {
+      reject(new Error("Failed to load image element"));
+    };
+  });
+}
