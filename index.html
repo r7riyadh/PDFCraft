@@ -10,25 +10,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-HzuHFbgF.js"></script>
+    <script type="module" crossorigin src="./assets/index-C4rDHn8Z.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-Bh1tDfsg.js">
     <link rel="modulepreload" crossorigin href="./assets/preload-helper-HclGiUj8.js">
-    <link rel="stylesheet" crossorigin href="./assets/index-Cr7E0HRQ.css">
+    <link rel="stylesheet" crossorigin href="./assets/index-BUPQiAbs.css">
   </head>
   <body class="relative min-h-screen" style="background-color: #030712;">
-
     <!-- Sleek grid pattern overlay -->
     <div class="grid-overlay"></div>
-
-    <!-- Aurora ambient glows -->
-    <div class="aurora-glow-1"></div>
-    <div class="aurora-glow-2"></div>
 
     <!-- Main Container -->
     <div class="max-w-4xl mx-auto px-4 py-12 relative z-10 flex flex-col min-h-screen">
       <!-- Header -->
       <header class="text-center mb-10 select-none">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent pb-1">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white pb-1">
           PDFCraft
         </h1>
         <p class="text-slate-400 mt-3 text-base md:text-lg max-w-lg mx-auto leading-relaxed">
@@ -39,18 +34,18 @@
       <!-- Main App Card -->
       <main class="glass-panel rounded-3xl p-6 md:p-8 flex-grow flex flex-col shadow-2xl relative overflow-hidden border border-white/10">
         <!-- Accent line top -->
-        <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 opacity-80"></div>
+        <div class="absolute top-0 inset-x-0 h-px bg-slate-800"></div>
         
         <!-- Invisible File Input -->
         <input type="file" id="file-input" class="hidden" accept=".pdf,image/png,image/jpeg,image/jpg,.heic,.heif" multiple />
         
         <!-- Drag & Drop Zone -->
-        <div id="dropzone" class="border-2 border-dashed border-slate-700/60 hover:border-brand-500/60 rounded-2xl p-8 md:p-12 text-center transition-all duration-300 ease-out cursor-pointer bg-slate-950/20 hover:bg-slate-950/40 relative group flex flex-col items-center justify-center min-h-[240px] select-none">
+        <div id="dropzone" class="border-2 border-dashed border-slate-700/60 hover:border-slate-500/60 rounded-2xl p-8 md:p-12 text-center transition-all duration-300 ease-out cursor-pointer bg-slate-950/20 hover:bg-slate-950/40 relative group flex flex-col items-center justify-center min-h-[240px] select-none">
           
           <!-- Dropzone Content -->
           <div class="flex flex-col items-center transition-transform duration-300 group-hover:scale-[1.01]">
             <!-- Animated Icon Container -->
-            <div class="w-16 h-16 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 text-brand-500 transition-all duration-300 group-hover:bg-brand-500/15 group-hover:border-brand-500/40 shadow-inner">
+            <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-850 flex items-center justify-center mb-5 text-slate-400 transition-all duration-300 group-hover:bg-slate-850 group-hover:border-slate-700 shadow-inner">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
@@ -60,7 +55,7 @@
               Drag & drop your files here
             </h3>
             <p class="text-slate-400 mt-2 text-sm md:text-base">
-              or <span class="text-brand-500 hover:text-brand-200 font-medium underline underline-offset-4 decoration-brand-500/50 transition-colors">browse files</span> from your device
+              or <span class="text-slate-300 hover:text-white font-medium underline underline-offset-4 decoration-slate-500/50 transition-colors">browse files</span> from your device
             </p>
             <p class="text-slate-500 mt-4 text-xs font-medium tracking-wide uppercase">
               Supports PDFs, PNGs, JPEGs, and HEICs
@@ -161,7 +156,7 @@
     <div id="status-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
       <div class="glass-panel border-white/10 max-w-md w-full mx-4 rounded-3xl p-6 md:p-8 shadow-2xl text-center relative overflow-hidden flex flex-col items-center">
         <!-- Progress Ring or Success Icon -->
-        <div id="status-icon-container" class="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-brand-500 bg-brand-500/10">
+        <div id="status-icon-container" class="w-16 h-16 rounded-full flex items-center justify-center mb-6 text-slate-200 bg-slate-850 border border-slate-800 shadow-inner">
           <svg class="animate-spin h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -173,9 +168,9 @@
         
         <!-- Mock Progress Bar -->
         <div id="progress-bar-container" class="w-full bg-slate-800 rounded-full h-1.5 mt-6 mb-2 overflow-hidden">
-          <div id="progress-bar-fill" class="bg-gradient-to-r from-brand-500 to-purple-500 h-full w-0 transition-all duration-300 ease-out"></div>
+          <div id="progress-bar-fill" class="bg-slate-250 h-full w-0 transition-all duration-300 ease-out"></div>
         </div>
-        <div id="progress-percent" class="text-xs text-brand-500 font-semibold">0%</div>
+        <div id="progress-percent" class="text-xs text-slate-300 font-semibold">0%</div>
 
         <!-- Close Button -->
         <button id="status-close-btn" class="mt-6 w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white text-sm font-semibold transition-colors cursor-pointer hidden">
