@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-accent-500: #a855f7;
-  --color-accent-600: #9333ea;
+  --color-brand-50: #f8fafc;
+  --color-brand-100: #f1f5f9;
+  --color-brand-200: #e2e8f0;
+  --color-brand-500: #94a3b8;
+  --color-brand-600: #475569;
+  --color-brand-700: #334155;
+  --color-accent-500: #cbd5e1;
+  --color-accent-600: #94a3b8;
   
   --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -26,7 +26,7 @@ body {
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(99, 102, 241, 0.05) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px);
   background-size: 24px 24px;
   z-index: 0;
   pointer-events: none;
